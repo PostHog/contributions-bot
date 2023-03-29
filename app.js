@@ -1,7 +1,7 @@
 const isMessageByApp = require('./lib/is-message-by-app')
 const isMessageForApp = require('./lib/is-message-for-app')
 const CommentReply = require('./lib/modules/comment-reply')
-const { processIssueComment, processContribution } = require('./lib/process-issue-comment')
+const { processIssueComment, processContribution, listComments } = require('./lib/process-issue-comment')
 const { pullRequestContainsLabel } = require('./lib/utils')
 const { AllContributorBotError } = require('./lib/modules/errors')
 const { OrganizationMembers } = require('./lib/organization-members')
@@ -65,14 +65,9 @@ async function handleGeneralMessage(context) {
         console.log('Not nagging due to title/label')
         return
     }
-    const allCommentsResponse = await context.octokit.issues.listComments({
-        owner: context.payload.repository.owner.login,
-        repo: context.payload.repository.name,
-        issue_number: context.payload.issue.number,
-        per_page: 100,
-    })
 
-    const allComments = allCommentsResponse.data
+    const allComments = await listComments({ context })
+
     if (allComments.some((comment) => comment.body?.includes('Issues this long'))) {
         console.log('The bot has already sent a message like this')
         return
