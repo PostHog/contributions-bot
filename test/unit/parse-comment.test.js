@@ -2,7 +2,7 @@ const parseComment = require('../../lib/parse-comment')
 
 describe('parseComment', () => {
     test('Basic intent to add', () => {
-        expect(parseComment(`@all-contributors please add jakebolam for doc, infra and code`)).toEqual({
+        expect(parseComment(`@posthog-bot please add jakebolam for doc, infra and code`)).toEqual({
             action: 'add',
             who: 'jakebolam',
             contributions: ['doc', 'infra', 'code'],
@@ -10,7 +10,7 @@ describe('parseComment', () => {
     })
 
     test('Basic intent to add - ignore case (for action and contributions, NOT for user)', () => {
-        expect(parseComment(`@all-contributors please Add jakeBolam for DOC, inFra and coDe`)).toEqual({
+        expect(parseComment(`@posthog-bot please Add jakeBolam for DOC, inFra and coDe`)).toEqual({
             action: 'add',
             who: 'jakeBolam',
             contributions: ['doc', 'infra', 'code'],
@@ -18,7 +18,7 @@ describe('parseComment', () => {
     })
 
     test('Basic intent to add - non name username', () => {
-        expect(parseComment(`@all-contributors please add tbenning for design`)).toEqual({
+        expect(parseComment(`@posthog-bot please add tbenning for design`)).toEqual({
             action: 'add',
             who: 'tbenning',
             contributions: ['design'],
@@ -26,7 +26,7 @@ describe('parseComment', () => {
     })
 
     test('Basic intent to add - capitalized username', () => {
-        expect(parseComment(`@all-contributors please add Rbot25_RULES for tool`)).toEqual({
+        expect(parseComment(`@posthog-bot please add Rbot25_RULES for tool`)).toEqual({
             action: 'add',
             who: 'Rbot25_RULES',
             contributions: ['tool'],
@@ -34,7 +34,7 @@ describe('parseComment', () => {
     })
 
     test('Basic intent to add - with plurals', () => {
-        expect(parseComment(`@all-contributors please add dat2 for docs`)).toEqual({
+        expect(parseComment(`@posthog-bot please add dat2 for docs`)).toEqual({
             action: 'add',
             who: 'dat2',
             contributions: ['doc'],
@@ -42,7 +42,7 @@ describe('parseComment', () => {
     })
 
     test('Support full words (like infrastructure)', () => {
-        expect(parseComment(`@all-contributors please add jakebolam for infrastructure, documentation`)).toEqual({
+        expect(parseComment(`@posthog-bot please add jakebolam for infrastructure, documentation`)).toEqual({
             action: 'add',
             who: 'jakebolam',
             contributions: ['infra', 'doc'],
@@ -50,7 +50,7 @@ describe('parseComment', () => {
     })
 
     test('Support adding people with mentions', () => {
-        expect(parseComment(`@all-contributors please add @sinchang for infrastructure`)).toEqual({
+        expect(parseComment(`@posthog-bot please add @sinchang for infrastructure`)).toEqual({
             action: 'add',
             who: 'sinchang',
             contributions: ['infra'],
@@ -58,7 +58,7 @@ describe('parseComment', () => {
     })
 
     test('Support alternative sentences', () => {
-        expect(parseComment(`@all-contributors add @sinchang for infrastructure`)).toEqual({
+        expect(parseComment(`@posthog-bot add @sinchang for infrastructure`)).toEqual({
             action: 'add',
             who: 'sinchang',
             contributions: ['infra'],
@@ -66,7 +66,7 @@ describe('parseComment', () => {
 
         expect(
             parseComment(
-                `Jane you are crushing it in documentation and your infrastructure work has been great too. Let's add jane.doe23 for her contributions. cc @all-contributors-bot`
+                `Jane you are crushing it in documentation and your infrastructure work has been great too. Let's add jane.doe23 for her contributions. cc @posthog-bot-bot`
             )
         ).toEqual({
             action: 'add',
@@ -76,14 +76,14 @@ describe('parseComment', () => {
     })
 
     test('Support split words (like user testing)', () => {
-        expect(parseComment(`@all-contributors please add jakebolam for infrastructure, fund finding`)).toEqual({
+        expect(parseComment(`@posthog-bot please add jakebolam for infrastructure, fund finding`)).toEqual({
             action: 'add',
             who: 'jakebolam',
             contributions: ['infra', 'fundingFinding'],
         })
 
         expect(
-            parseComment(`@all-contributors please add jakebolam for infrastructure, user testing and testing`)
+            parseComment(`@posthog-bot please add jakebolam for infrastructure, user testing and testing`)
         ).toEqual({
             action: 'add',
             who: 'jakebolam',
@@ -92,7 +92,7 @@ describe('parseComment', () => {
     })
 
     test('Support split words types that are referenced via other terms (e.g. a plural split word)', () => {
-        expect(parseComment(`@all-contributors please add @jakebolam for infrastructure, funds`)).toEqual({
+        expect(parseComment(`@posthog-bot please add @jakebolam for infrastructure, funds`)).toEqual({
             action: 'add',
             who: 'jakebolam',
             contributions: ['infra', 'fundingFinding'],
@@ -100,19 +100,19 @@ describe('parseComment', () => {
     })
 
     test('Intent unknown', () => {
-        expect(parseComment(`@all-contributors please lollmate for tool`)).toEqual({
+        expect(parseComment(`@posthog-bot please lollmate for tool`)).toEqual({
             action: false,
         })
     })
 
     test('Ensure (trailing) hyphens are not discarded', () => {
-        expect(parseComment(`@all-contributors please add @jakebolam- for testing`)).toEqual({
+        expect(parseComment(`@posthog-bot please add @jakebolam- for testing`)).toEqual({
             action: 'add',
             who: 'jakebolam-',
             contributions: ['test'],
         })
 
-        expect(parseComment(`@all-contributors please add @jakebolam-jakebolam for bugs, ideas`)).toEqual({
+        expect(parseComment(`@posthog-bot please add @jakebolam-jakebolam for bugs, ideas`)).toEqual({
             action: 'add',
             who: 'jakebolam-jakebolam',
             contributions: ['bug', 'ideas'],
@@ -120,10 +120,16 @@ describe('parseComment', () => {
     })
 
     test('Contribution unknown', () => {
-        expect(parseComment(`@all-contributors please add @octocat for unknown`)).toEqual({
+        expect(parseComment(`@posthog-bot please add @octocat for unknown`)).toEqual({
             action: 'add',
             who: 'octocat',
             contributions: [],
+        })
+    })
+
+    test('Basic intent to summarize', () => {
+        expect(parseComment(`@posthog-bot please summarize thread`)).toEqual({
+            action: 'summarize',
         })
     })
 })

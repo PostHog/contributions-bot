@@ -54,7 +54,7 @@ This bot, however, does **a lot** more. Here are some notable modifications:
 
 ### Semantics
 
-- Users can mention the bot by tagging @posthog-bot instead of @all-contributors
+- Users can mention the bot by tagging @posthog-bot instead of @posthog-bot
 - PR to add contributors comes from @posthog-contributions-bot
 - PostHog-specific replies to messages, PR titles, and PR descriptions
 

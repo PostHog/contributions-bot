@@ -31,7 +31,7 @@ Array [
         "action": "created",
         "comment": Object {
           "author_association": "MEMBER",
-          "body": "@all-contributors please add jakebolam for code, doc and infra",
+          "body": "@posthog-bot please add jakebolam for code, doc and infra",
           "created_at": "2019-01-10T08:36:52Z",
           "html_url": "https://github.com/all-contributors/all-contributors-bot/pull/1#issuecomment-453012966",
           "id": 453012966,
@@ -304,7 +304,7 @@ Object {
 
 I could not determine your intention.
 
-Basic usage: @all-contributors please add @someone for code, doc and infra
+Basic usage: @posthog-bot please add @someone for code, doc and infra
 
 For other usages see the [documentation](https://allcontributors.org/docs/en/bot/usage)",
 }

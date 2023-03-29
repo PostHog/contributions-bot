@@ -79,7 +79,7 @@
         "created_at": "2019-01-10T08:36:52Z",
         "updated_at": "2019-01-10T08:36:52Z",
         "author_association": "MEMBER",
-        "body": "@all-contributors hello"
+        "body": "@posthog-bot hello"
     },
     "repository": {
         "id": 164268911,
