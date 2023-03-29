@@ -110,7 +110,7 @@ async function handleMessageIntendedForBot(context) {
     // Only org members can request contributors be added
     const userWhoWroteComment = context.payload.sender.login
 
-    if (userWhoWroteComment !== 'yakkomajuri' && !members.has(userWhoWroteComment)) {
+    if (!members.has(userWhoWroteComment)) {
         return
     }
 
