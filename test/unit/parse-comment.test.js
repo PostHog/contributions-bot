@@ -126,4 +126,10 @@ describe('parseComment', () => {
             contributions: [],
         })
     })
+
+    test('Basic intent to summarize', () => {
+        expect(parseComment(`@posthog-bot please summarize thread`)).toEqual({
+            action: 'summarize',
+        })
+    })
 })
